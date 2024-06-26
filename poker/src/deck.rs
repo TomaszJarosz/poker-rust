@@ -35,7 +35,45 @@ impl Deck {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashSet;
+
+    use crate::card::{Rank, Suit};
+
     use super::*;
+
+    #[test]
+    fn deck_should_have_52_unique_cards() {
+        let deck = Deck::new();
+        assert_eq!(deck.cards.len(), 52);
+
+        //check if all are unique
+        let mut unique_cards = HashSet::new();
+        for card in deck.cards {
+            unique_cards.insert(card);
+        }
+        assert_eq!(unique_cards.len(), 52);
+    }
+
+    #[test]
+    fn deck_should_contain_all_suits_and_ranks() {
+        let deck = Deck::new();
+
+        let mut suit_rank_set = HashSet::new();
+        for &suit in &[Suit::Hearts, Suit::Diamonds, Suit::Clubs, Suit::Spades] {
+            for &rank in &[
+                Rank::Two, Rank::Three, Rank::Four, Rank::Five,
+                Rank::Six, Rank::Seven, Rank::Eight, Rank::Nine,
+                Rank::Ten, Rank::Jack, Rank::Queen, Rank::King,
+                Rank::Ace
+            ] {
+                suit_rank_set.insert((suit, rank));
+            }
+        }
+
+        for card in deck.cards {
+            assert!(suit_rank_set.contains(&(card.suit, card.rank)));
+        }
+    }
 
     #[test]
     fn shuffle_should_change_order_of_cards() {
