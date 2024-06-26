@@ -4,7 +4,7 @@ use rand::thread_rng;
 use crate::card::{Card, Rank, Suit};
 
 pub struct Deck {
-    cards: Vec<Card>,
+    pub(crate) cards: Vec<Card>,
 }
 
 impl Deck {
