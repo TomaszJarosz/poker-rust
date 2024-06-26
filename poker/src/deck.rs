@@ -38,6 +38,30 @@ mod tests {
     use super::*;
 
     #[test]
+    fn shuffle_should_change_order_of_cards() {
+        let mut deck = Deck::new();
+        let original_deck = deck.cards.clone();
+
+        deck.shuffle();
+        assert_ne!(deck.cards, original_deck);
+    }
+
+    #[test]
+    fn shuffle_should_preserve_all_cards() {
+        let mut deck = Deck::new();
+        let original_deck = deck.cards.clone();
+
+        deck.shuffle();
+
+        // Check if shuffle preserves all cards
+        let mut original_sorted = original_deck.clone();
+        original_sorted.sort();
+        let mut shuffled_sorted = deck.cards.clone();
+        shuffled_sorted.sort();
+        assert_eq!(original_sorted, shuffled_sorted);
+    }
+
+    #[test]
     fn deal_hand_length_should_match() {
         let mut deck = Deck::new();
         let hand = deck.deal(5);
