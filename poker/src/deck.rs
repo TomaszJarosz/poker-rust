@@ -32,3 +32,32 @@ impl Deck {
         self.cards.split_off(self.cards.len() - num_cards)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn deal_hand_length_should_match() {
+        let mut deck = Deck::new();
+        let hand = deck.deal(5);
+        assert_eq!(hand.len(), 5);
+    }
+
+    #[test]
+    fn deck_size_should_change_after_deal() {
+        let mut deck = Deck::new();
+        deck.deal(5);
+        assert_eq!(deck.cards.len(), 47);
+    }
+
+    #[test]
+    fn dealt_cards_should_be_removed_from_deck() {
+        let mut deck = Deck::new();
+        let hand = deck.deal(5);
+        let remaining_cards = deck.cards.clone();
+        for card in hand {
+            assert!(!remaining_cards.contains(&card));
+        }
+    }
+}
